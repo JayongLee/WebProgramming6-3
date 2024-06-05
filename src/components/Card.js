@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import EditTask from '../modals/EditTask'
 
-const Card = ({taskObj, index, deleteTask, updateListArray}) => {
+const Card = ({taskObj, index, deleteTask, updateListArray, inputTask}) => {
     const [modal, setModal] = useState(false);
 
     const colors = {
@@ -41,12 +41,24 @@ const Card = ({taskObj, index, deleteTask, updateListArray}) => {
         deleteTask(index)
     }
 
+    const handleInput = (obj) => {
+        inputTask(obj ,index)
+    }
+
+    
+
     return (
-        <div class = "card-wrapper mr-5">
-            <div class = "card-top" style={{"background-color": color.primaryColor}}></div>
-            <div class = "task-holder">
-                <span class = "card-header" style={{"background-color": color.secondaryColor, "border-radius": "10px"}}>{taskObj.Name}</span>
-                <p className = "mt-3">{taskObj.Description}</p>
+        <div class="card-wrapper mr-5">
+            <div class="card-top" style={{"background-color": color.primaryColor}}></div>
+            <div class="task-holder">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" onChange={() => handleInput(taskObj)} />
+                    <label class="form-check-label" for="flexCheckChecked">
+                        TODO
+                    </label>
+                </div>
+                <span class="card-header" style={{"background-color": color.secondaryColor, "border-radius": "10px"}}>{taskObj.Name}</span>
+                <p className="mt-3">{taskObj.Description}</p>
 
                 <div style={{"padding": "10px" }}>
                     <button 
@@ -57,19 +69,19 @@ const Card = ({taskObj, index, deleteTask, updateListArray}) => {
                             "borderRadius": "5px",
                             "border": "none"
                             }} 
-                            onClick = {() => setModal(true)}>Update</button>
+                        onClick={() => setModal(true)}>Update</button>
                     <button 
-                        style = {{
+                        style={{
                             "color" : color.primaryColor, 
                             "cursor" : "pointer",
                             "padding": "10px 20px",
                             "borderRadius": "5px",
                             "border": "none"
                             }} 
-                        onClick = {handleDelete}>Delete</button>
+                        onClick={handleDelete}>Delete</button>
                 </div>
-        </div>  
-        <EditTask modal = {modal} toggle = {toggle} updateTask = {updateTask} taskObj = {taskObj}/>
+            </div>  
+            <EditTask modal={modal} toggle={toggle} updateTask={updateTask} taskObj={taskObj}/>
         </div>
     );
 };
